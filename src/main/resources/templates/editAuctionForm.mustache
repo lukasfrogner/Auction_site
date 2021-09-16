@@ -1,0 +1,15 @@
+{{>header}}
+<form method="GET" action="/profile/{{loggedIn.id}}/auctions/edit/{{auction.id}}/done">
+    <div class="form-group">
+        <label for="name">Titel</label>
+        <input  type="text" class="form-control" name="name" value="{{auction.name}}">
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="description">Beskrivning</label>
+        <textarea type="text" class="form-control" name="description" >{{auction.description}}</textarea>
+    </div>
+    <br />
+    <input type="submit" class="btn btn-success" value="Spara ändringar">
+</form>
+{{>footer}}

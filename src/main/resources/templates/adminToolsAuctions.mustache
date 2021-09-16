@@ -1,0 +1,24 @@
+{{>header}}
+<table class="table">
+    <thead>
+        <tr>
+        <th scope="col">Namn</th>
+        <th scope="col">Beskrivning</th>
+        <th scope="col">Antal bud</th>
+        <th scope="col">Tar slut</th>
+        <th scope="col">Ta bort</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#auctions}}
+        <tr>
+        <td><a href="/admin/tools/auctions/{{id}}" style="color:black" >{{name}}</a></td>
+        <td>{{description}}</td>
+        <td>{{getNrOfBids}}</td>
+        <td>{{endDate}}</td>
+        <td><a style="color: red;" href="/admin/tools/auction/delete/{{id}}">X</a><td>
+        </tr>
+        {{/auctions}}
+    </tbody>
+</table>
+{{>footer}}

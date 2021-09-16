@@ -1,0 +1,31 @@
+{{>header}}
+<form method="GET" action="/admin/tools/users/update/{{user.id}}">
+    <div class="form-group">
+        <label for="username">Användarnamn</label>
+        <input  type="text" class="form-control" name="username" value="{{user.username}}" placeholder="Ange ett användarnamn">
+    </div>
+    <br>
+        <div class="form-group">
+        <label for="email">Mail</label>
+        <input type="text" class="form-control" name="email" value="{{user.email}}" placeholder="Ange en epost">
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="password">Lösenord</label>
+        <input type="password" class="form-control" name="password" value="{{user.password}}" placeholder="Ange lösenord" disabled>
+    </div>
+    <br>
+        <div class="form-group">
+        <label for="exampleInputRole">Rank</label>
+        <select class="form-control" name="role" id="role" value="{{user.role}}">
+            <option value="ROLE_ADMIN">Admin</option>
+            <option value="ROLE_USER">Användare</option>     
+        </select>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-light">Uppdatera</button> 
+    <input  type="hidden" name="old_username" value="{{user.username}}">
+    <br>
+    <br>
+</form>
+{{>footer}}

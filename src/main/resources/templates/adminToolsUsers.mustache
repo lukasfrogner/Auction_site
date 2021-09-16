@@ -1,0 +1,22 @@
+{{>header}}
+<table class="table">
+    <thead>
+        <tr>
+        {{! <th scope="col">ID</th> }}
+        <th scope="col">Användarnamn</th>
+        <th scope="col">Mail</th>
+        <th scope="col">Rank</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#users}}
+        <tr>
+        <!-- <td><a href="/admin/tools/users/{{id}}" style="text-decoration:none; color:black">{{id}}</a></td> -->
+        <td><a href="/admin/tools/users/{{id}}" style="color:black">{{username}}</a></td>
+        <td>{{email}}</td>
+        <td>{{role}}</td>
+        </tr>
+    {{/users}}
+    </tbody>
+</table>
+{{>footer}}

@@ -1,0 +1,45 @@
+{{>header}}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/" style="text-decoration: none; color: black">Hem</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{currentCategory}}</li>
+    </ol>
+</nav>
+<div class="row" style="padding-top: 20px; padding-bottom: 13vh;" >
+    {{#auctions}}
+    <div class="col-sm-4">
+        <div class="card">
+            <img style="object-fit: contain; width: 100%; height: 400px; background-color: #9799a012;" src="{{imgUrl}}" class="card-img-top" alt="Produktbild">
+            <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <p class="card-text">{{description}}</p>
+                <p class="card-text">Utropspris {{cost}}</p>
+                {{#hasBids}}
+                <p class="card-text" id="nrOfBids">Antal bud: {{getNrOfBids}}</p>
+                {{/hasBids}}
+                {{^hasBids}}    
+                <p class="card-text" id="nrOfBids">Inga bud.</p>
+                {{/hasBids}}
+                <p><small class="text-muted" class="card-text">Slutar {{endDate}}</small></p>
+                <a href="/auction/{{id}}"><button class="btn btn-light">Mer info</button></a>
+            </div>
+        </div>
+    </div>
+    {{/auctions}}    
+</div>
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <li class="page-item {{^hasPrevious}}disabled{{/hasPrevious}}" ><a class="page-link" style="color: #4682B4;" href="/auction/category/{{currentCategoryId}}/{{previousPageNumber}}" tabindex="-1">Föregående sida</a></li>
+    {{#totalItems}}
+    <li id="sidnr" class="page-item page-link disabled" style="text-decoration: none; color: black;">Sida {{displayableCurrentPageNumber}} av {{totalPages}}</li>
+    {{/totalItems}}
+    <li class="page-item {{^hasNext}}disabled{{/hasNext}}" ><a class="page-link" style="color: #4682B4;" href="/auction/category/{{currentCategoryId}}/{{nextPageNumber}}">Nästa sida</a></li>
+  </ul>
+</nav>
+<br>
+<style>
+    #sidnr:hover{
+        background: none;
+    }
+</style>
+{{>footer}}

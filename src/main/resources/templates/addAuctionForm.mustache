@@ -1,0 +1,32 @@
+{{>header}}
+<div class="form-container" style="padding-top: 20px; padding-bottom: 13vh;">
+    <form method="GET" action="/auction/post/done">
+        <div class="form-group">
+            <label for="name"></label>
+            <input  type="text" name="name" class="form-control" placeholder="Ange en titel">
+        </div>
+            <div class="form-group">
+            <label for="description"></label>
+            <textarea class="form-control" rows="5" cols="50" name="description" placeholder="Ange en beskrivning"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="cost"></label>
+            <input type="text" name="cost" class="form-control" placeholder="Ange ett utropspris" >
+        </div>
+        <div class="form-group">
+            <label for="cost"></label>
+            <input type="text" name="imgUrl" class="form-control" placeholder="Bildlänk" >
+        </div>
+            <div class="form-group">
+            <label for="category"></label>
+            <select class="form-control" name="category" id="category">
+                {{#categories}}
+                <option value="{{id}}">{{type}}</option>
+                {{/categories}}
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-light">Lägg till auktion</button> 
+    </form>
+</div>
+{{>footer}}

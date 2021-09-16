@@ -1,0 +1,58 @@
+{{>header}}
+<div class="card" style="width: auto;">
+    <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+            <h5>{{auction.name}}</h5> <p>Upplagd av <a href="/profile/{{auction.user.id}}" >{{auction.user.username}}</a></p>
+        </div>
+        
+        <p class="card-text">{{auction.description}}</p>
+        <p>Utgångspris: <b id="startPrice">{{auction.cost}}</b> kr</p>
+        
+    </div>
+    <ul class="list-group list-group-flush">
+        {{#auction.bids}}
+            <li class="list-group-item">{{amount}}kr budat av <a href="/profile/{{user.id}}" >{{user.username}}</a></li>
+        {{/auction.bids}}
+        {{^auction.bids}}
+            <li class="list-group-item">Inga bud har blivit lagda.</li>
+        {{/auction.bids}}
+    </ul>
+</div>
+<div id="warningmsgPrice" style="display: none; color: red">Ditt bud måste vara högre än utgångspris.</div>
+<div id="warningmsgBid" style="display: none; color: red">Ditt bud måste vara högre än det nuvarande högsta budet.</div>
+{{#loggedIn}}
+{{#isAllowed}}
+<form onsubmit="validateBid();" method="GET" action="/bid/{{auction.id}}">
+    <div class="form-check">
+    <label for="bid">Buda</label>
+    <input type="text" name="amount" id="bid">
+    </div>
+    <button type="submit">Lägg bud</button>
+</form>
+{{/isAllowed}}
+{{^isAllowed}}
+Du får inte buda om du leder eller äger auktionen
+{{/isAllowed}}
+{{/loggedIn}}
+<script type="text/javascript">
+function validateBid(){    
+    let highestBid = {{auction.getHighestBid}};
+    console.log(highestBid);
+    let bid = document.getElementById("bid").value;
+    let startPrice = {{auction.cost}};
+    console.log(bid);
+    console.log(startPrice);
+
+    if(bid < startPrice){
+        event.preventDefault();
+        document.getElementById("warningmsgPrice").style.display = "block";
+        return false;
+    }
+    if(bid < highestBid){
+        event.preventDefault();
+        document.getElementById("warningmsgBid").style.display = "block";
+        return false;
+    }
+}
+</script>
+{{>footer}}

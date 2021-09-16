@@ -1,0 +1,14 @@
+{{>header}}
+<form method="GET" action="/admin/tools/auction/update/{{auction.id}}">
+    <div class="form-group">
+        <label for="name"></label>
+        <input  type="text" class="form-control" name="name" value="{{auction.name}}">
+      </div>
+    <div class="form-group">
+        <label for="description"></label>
+        <textarea type="text" class="form-control" name="description" >{{auction.description}}</textarea>
+    </div>
+    <br>
+    <input type="submit" class="btn btn-success" value="Spara ändringar">
+</form>
+{{>footer}}

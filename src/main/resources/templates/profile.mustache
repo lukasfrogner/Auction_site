@@ -1,0 +1,35 @@
+{{>header}}
+<div class="card" style="width: auto;">
+    <div class="card-body">
+        <h5 class="card-title">Användarnamn: {{user.username}}</h5>
+    </div>    
+
+
+<table class="table table-striped">
+    <thead style="border-bottom: 1px solid black">
+        <tr>
+        <th scope="col">Auktion</th>
+        <th scope="col">Beskrivning</th>
+        <th scope="col">Tar slut</th>
+        <th scope="col">Antal bud</th> 
+        </tr>
+    </thead>
+    <tbody>
+    {{#user.auctions}}
+        {{#active}}
+        <tr>
+        <td><a href="/auction/{{id}}" style="color:black" >{{name}}</a></td>
+        <td>{{description}}</td>
+        <td>{{getEndDateFormatted}}</td>
+        <td><span class="badge bg-warning rounded-pill">{{getNrOfBids}}</span></td>     
+        {{#isAllowed}} 
+        <td><a href="/profile/{{loggedIn.id}}/auctions/delete/{{id}}" style="text-decoration: none; color: red;">Ta bort</a><td>
+        <td><a href="/profile/{{loggedIn.id}}/auctions/edit/{{id}}" style="text-decoration: none; color: #4682B4;">Redigera</a><td>
+        {{/isAllowed}}
+        </tr>
+        {{/active}}
+    {{/user.auctions}}
+    </tbody>
+</table>
+</div>
+{{>footer}}

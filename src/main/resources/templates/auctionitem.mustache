@@ -1,0 +1,116 @@
+{{>header}}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/" style="text-decoration: none; color: black">Hem</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="/auction/category/{{currentCategory.id}}/0" style="text-decoration: none; color: black">{{currentCategory.type}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{auction.name}}</li>
+    </ol>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div>
+                <img style="object-fit: contain; width: 100%; height: 500px; background-color: #9799a012;" class="card-img-top" src="{{auction.imgUrl}}" alt="Card image cap">
+                <div class="card-body">
+                    <h6 class="card-title">{{auction.name}}</h6>
+                    <p class="card-text">{{auction.description}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <br>
+            <div>
+            {{#isActive}}
+                <p><strong>Slutdatum:</strong> {{auction.getEndDateFormatted}}</p>
+                
+                <p><strong>Utgångspris:</strong> {{auction.cost}}</p>
+                
+                {{#hasBids}}
+                <p><strong>Antal bud: </strong> {{auction.getNrOfBids}}</p>
+                <p><strong>Ledande bud: </strong> {{highestBid.getAmount}} kr, <small class="text-muted"> {{highestBid.getTimestamp}}</small></p>
+                <p><strong>Topp 3 bud:</strong></p>
+                {{#topThreeBids}}
+                <small>{{amount}}kr</small><br/>
+                {{/topThreeBids}}
+                <a href="#"  data-toggle="modal" data-target="#exampleModal"><small class="card-text">Visa alla bud</small></a>  
+                {{/hasBids}}
+                
+                {{^hasBids}} 
+                <p class="card-text">Den här auktionen har inga bud</p>
+                {{/hasBids}}
+                {{#loggedIn}}
+                {{#isAllowed}}
+                <br /> 
+                <form onsubmit="validateBid();" method="GET" action="/bid/{{auction.id}}">
+                    <button type="submit" class="btn btn-success">Lägg bud på {{increaseBid}}kr</button>
+                </form>
+                {{/isAllowed}}
+                {{^isAllowed}}
+                <p class="card-text">Du får inte buda om du leder eller äger auktionen</p>
+                {{/isAllowed}}
+                {{/loggedIn}}
+                {{/isActive}}
+                {{^isActive}}
+                <h5>Auktionen är avslutad</h5>
+                {{#highestBid}}
+                <p><strong>Vinnande bud: </strong> {{highestBid.getAmount}} kr, <small class="text-muted"> {{highestBid.user.username}} {{highestBid.user.email}}</small></p>
+                {{/highestBid}}
+                {{^highestBid}}
+                <p><strong>Inga bud lades på auktionen.</strong></p>
+                {{/highestBid}}
+                {{/isActive}}
+            </div>
+            <br />
+            <div class="col-6">
+                <h6 class="card-title">Säljare: <a href="/profile/{{auction.user.id}}" style="text-decoration: none; color: #4682B4;">{{auction.user.username}}</a></h6>
+            </div>
+        </div>
+        {{! modal för att visa alla bud }}
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Alla bud</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">                       
+                            {{#bids}}
+                                <li style="list-style-type: none;">
+                                    <small class="card-text">{{amount}}kr</a></small> 
+                                </li>
+                            {{/bids}}                            
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script type="text/javascript">
+    function validateBid(){    
+        let highestBid = {{auction.getHighestBid}};
+        console.log(highestBid);
+        let bid = document.getElementById("bid").value;
+        let startPrice = {{auction.cost}};
+        console.log(bid);
+        console.log(startPrice);
+    
+        if(bid < startPrice){
+            event.preventDefault();
+            document.getElementById("warningmsgPrice").style.display = "block";
+            return false;
+        }
+        if(bid < highestBid){
+            event.preventDefault();
+            document.getElementById("warningmsgBid").style.display = "block";
+            return false;
+        }
+    }
+</script>
+{{>footer}}
